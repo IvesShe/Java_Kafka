@@ -177,3 +177,70 @@ bin/kafka-server-start.sh config/server.properties
 ```bash
 bin/kafka-topics.sh --bootstrap-server
 ```
+
+# 改用ives_gcp操作
+
+這機器本身已經有安裝zookeeper，所以想用這台直接操作
+
+先作單台機器的練習，之後有機會再作集群的練習
+
+參考相關文檔
+
+https://github.com/IvesShe/Java_ZooKeeper
+
+啟動zookeeper
+
+![image](./images/20210710113619.png)
+
+修改kafak配置檔
+
+除了broker.id及log目錄外，要再檢查打開一項設定
+
+```properties
+# 不同機器不同id
+broker.id=0 
+
+# 自定log目錄
+log.dirs=/tmp/kafka-logs
+
+listeners=PLAINTEXT://:9092
+
+# zookeeper服務位址
+zookeeper.connect=localhost:2181
+```
+
+![image](./images/20210710113235.png)
+
+成功運行kafka
+
+```bash
+bin/kafka-server-start.sh config/server.properties
+```
+
+![image](./images/20210710113315.png)
+
+查看進程，zookeeper跟kafka都成功的運行了
+
+```
+jps -l
+```
+
+![image](./images/20210710114427.png)
+
+# Kafka測試消息生產與消費
+
+首先創建一個主題，命令如下
+
+```bash
+bin/kafka-topics.sh -zookeeper localhost:2181 --create --topic ivesmsg --partitions 2 --replication-factor 1
+
+# --zookeeper：指定kafka新連接的zookeeper服務地址
+# --topic：指定所要創建主題的名稱
+# --partitions：指定分區個數
+# --replication-factor：指定副本因子
+# --create：創建主題的動作指令
+```
+
+創建成功
+
+![image](./images/20210710120438.png)
