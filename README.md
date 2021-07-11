@@ -298,6 +298,8 @@ bin/kafka-console-producer.sh --broker-list localhost:9092 --topic ivesmsg
 
 ![image](./images/20210710141710.png)
 
+![image](./images/20210711155637.png)
+
 pom.xml
 
 ```xml
